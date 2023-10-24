@@ -493,6 +493,11 @@ class FK2PlanningEnvWrapper():
                 data['start'] = self.angle_normalize(data['start'].cpu()).cuda()
 
             for j in tqdm(range(self.max_trajectory_length)):
+                # for k, v in data.items():
+                #     if isinstance(v, list):
+                #         print(k, [(vv.shape if isinstance(vv, torch.Tensor) else vv) for vv in v])
+                #     else:
+                #         print(k, v.shape)
                 outputs = model.sample(data, k=self.max_sample_each_step)
                 # assert torch.sum(outputs[:, 0:1, -1, 0, :] - env.state) < 1e-6
                 assert (outputs.shape[1] == 1)

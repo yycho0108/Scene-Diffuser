@@ -20,7 +20,9 @@ class FK2Plan(Dataset):
     _scene_pre_code = 'dthvl15jruz9i2fok6bsy3qamp8c4nex'
     _train_split = [f"dthvl15jruz9i2fok6bsy3qamp8c4nex{str(i).zfill(3)}" for i in range(160)]
     # _test_split = [f"dthvl15jruz9i2fok6bsy3qamp8c4nex{str(i).zfill(3)}" for i in range(160, 200)]
-    _test_split = [f"dthvl15jruz9i2fok6bsy3qamp8c4nex{str(i).zfill(3)}" for i in range(160, 200)]  ##todo: here to test
+    # _test_split = [f"dthvl15jruz9i2fok6bsy3qamp8c4nex{str(i).zfill(3)}" for i in range(160, 200)]  ##todo: here to test
+    # _test_split = [f"dthvl15jruz9i2fok6bsy3qamp8c4nex{str(i).zfill(3)}" for i in range(199, 200)]  ##todo: here to test
+    _test_split = [f"trigger{str(i).zfill(3)}" for i in range(0,25)]  ##todo: here to test
     _all_split = [f"dthvl15jruz9i2fok6bsy3qamp8c4nex{str(i).zfill(3)}" for i in range(200)]
     # _test_split = [f"dthvl15jruz9i2fok6bsy3qamp8c4nex{str(i).zfill(3)}" for i in range(200)]
 
@@ -154,8 +156,16 @@ class FK2Plan(Dataset):
         ## randomly resample points
         if self.phase != 'train':
             np.random.seed(0)  # resample point cloud with a fixed random seed
-        resample_indices = np.random.permutation(len(scene_pc))
-        scene_pc = scene_pc[resample_indices[:self.num_points]]
+
+        if True:
+            resample_indices = np.random.permutation(len(scene_pc))
+            scene_pc = scene_pc[resample_indices[:self.num_points]]
+        else:
+            resample_indices = np.random.choice(len(scene_pc),
+                                                self.num_points,
+                                                replace=True)
+            scene_pc = scene_pc[resample_indices]
+
 
         ## format point cloud xyz and feature
         xyz = scene_pc[:, 0:3]

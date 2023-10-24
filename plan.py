@@ -6,7 +6,8 @@ import torch
 import random
 import numpy as np
 from omegaconf import DictConfig, OmegaConf
-from loguru import logger
+# from loguru import logger
+# import logging import 
 
 from utils.misc import timestamp_str, compute_model_dim
 from utils.io import mkdir_if_not_exists
@@ -30,11 +31,11 @@ def load_ckpt(model: torch.nn.Module, path: str) -> None:
     for key in model_state_dict:
         if key in saved_state_dict:
             model_state_dict[key] = saved_state_dict[key]
-            logger.info(f'Load parameter {key} for current model.')
+            print(f'Load parameter {key} for current model.')
         ## model is trained with ddm
         if 'module.'+key in saved_state_dict:
             model_state_dict[key] = saved_state_dict['module.'+key]
-            logger.info(f'Load parameter {key} for current model [Traind from multi GPUs].')
+            print(f'Load parameter {key} for current model [Traind from multi GPUs].')
     
     model.load_state_dict(model_state_dict)
 
@@ -50,8 +51,8 @@ def main(cfg: DictConfig) -> None:
     mkdir_if_not_exists(eval_dir)
     res_dir = os.path.join(eval_dir, 'plan', timestamp_str())
     
-    logger.add(res_dir + '/plan.log') # set logger file
-    logger.info('Configuration: \n' + OmegaConf.to_yaml(cfg)) # record configuration
+    # print(res_dir + '/plan.log') # set logger file
+    # logger.info('Configuration: \n' + OmegaConf.to_yaml(cfg)) # record configuration
 
     if cfg.gpu is not None:
         device = f'cuda:{cfg.gpu}'
@@ -64,7 +65,8 @@ def main(cfg: DictConfig) -> None:
         'test': create_dataset(cfg.task.dataset, 'test', cfg.slurm, case_only=True),
     }
     for subset, dataset in datasets.items():
-        logger.info(f'Load {subset} dataset size: {len(dataset)}')
+        # logger.info(f'Load {subset} dataset size: {len(dataset)}')
+        pass
     
     if cfg.model.scene_model.name == 'PointTransformer':
         collate_fn = collate_fn_squeeze_pcd_batch

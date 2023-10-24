@@ -226,9 +226,11 @@ class DDPM(nn.Module):
         x_t = torch.randn_like(data['x'], device=self.device)
         ## apply observation to x_t
         x_t = self.apply_observation(x_t, data)
+        # print('!!', x_t.shape)
         
         ## precompute conditional feature, which will be used in every sampling step
         condition = self.eps_model.condition(data)
+        # print('CCC', condition)
         data['cond'] = condition
 
         ## iteratively sampling

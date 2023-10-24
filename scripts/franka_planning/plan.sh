@@ -1,6 +1,6 @@
 CKPT=$1
 
-python plan.py hydra/job_logging=none hydra/hydra_logging=none \
+python3 plan.py hydra/job_logging=none hydra/hydra_logging=none \
                 exp_dir=${CKPT} \
                 diffuser=ddpm \
                 diffuser.steps=30 \

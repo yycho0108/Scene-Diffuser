@@ -60,7 +60,7 @@ class FrankaMotion_Player(BaseTask):
         self.dexterous_loaded = False
 
         super().__init__(cfg=self.cfg, enable_camera_sensors=config["env"]["enableCameraSensors"],
-                         cam_pos=(-1.2, -1.2, 1.2), cam_target=(0., 0., 0.5))
+                         cam_pos=(+1.2, +1.2, 1.2), cam_target=(0., 0., 0.5))
 
         # acquire tensors
         self.root_tensor = gymtorch.wrap_tensor(
@@ -311,8 +311,14 @@ class FrankaMotion_Player(BaseTask):
                     self.obj_pose_list.append(obj_start_pose)
             else:
                 print(f'load object asset into IsaacGym: {self.scene_id}')
-                # scene_urdf_path = f"{self.scene_id}/SceneDescription.urdf"
+                asset_path =  './envs/assets/scene_description'
                 scene_urdf_path = f"{self.scene_id}/fine_urdf/fine_scene.urdf"
+                # asset_path = (
+                #         '/input/Scene-Diffuser/grasp_and_armmotion/' +
+                #         F'datasets/FK2PlanDataset2/SceneDescription/{self.scene_id}'
+                #         )
+                # scene_urdf_path = 'SceneDescription.urdf'
+                # scene_urdf_path = f"{self.scene_id}/SceneDescription.urdf"
                 object_asset_options = gymapi.AssetOptions()
                 object_asset_options.density = self.cfg['object']['density']
                 # update
@@ -331,7 +337,11 @@ class FrankaMotion_Player(BaseTask):
                 object_asset_options.vhacd_params.resolution = 3000000
 
                 obj_asset = self.gym.load_asset(
-                    self.sim, './envs/assets/scene_description', scene_urdf_path, object_asset_options)
+                    self.sim,
+                    # './envs/assets/scene_description',
+                    asset_path,
+                    scene_urdf_path,
+                    object_asset_options)
                 self.obj_asset_list.append(obj_asset)
                 obj_start_pose = gymapi.Transform()
                 obj_start_pose.p = gymapi.Vec3(0.0, 0.0, 0.0)
@@ -366,7 +376,7 @@ class FrankaMotion_Player(BaseTask):
         self.gym.set_actor_rigid_shape_properties(env_ptr, obj_actor, obj_shape_props)
 
         self.obj_actor_list.append(obj_actor)
-        assert(self.gym.get_actor_rigid_body_names(self.env_ptr_list[0], 1)[0] == 'table')
+        # assert(self.gym.get_actor_rigid_body_names(self.env_ptr_list[0], 1)[0] == 'table')
 
     def _place_agents(self, env_num, spacing):
 
