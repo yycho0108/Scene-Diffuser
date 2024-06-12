@@ -8,6 +8,7 @@ import random
 import numpy as np
 import json
 from omegaconf import DictConfig, OmegaConf
+import time
 # from loguru import logger
 # import logging import 
 
@@ -105,7 +106,9 @@ def run(env,
             data['target'] = angle_normalize(data['target'].cpu()).cuda()
             data['start'] = angle_normalize(data['start'].cpu()).cuda()
 
+        t0 = time.time()
         outputs = model.sample(data, k=env.max_sample_each_step)
+        t1 = time.time()
         # [9, 1, 31, 65, 7]
         print('outputs', outputs.shape)
 
@@ -114,6 +117,7 @@ def run(env,
         if dataloader.dataset.normalize_x:
             traj = angle_denormalize(outputs.cpu()).cuda()
         res['traj'].append(traj.detach().cpu().numpy().tolist())
+        res['time'].append(t1-t0)
 
         #print()
         #i_trajectories = env.get_trajectories()
