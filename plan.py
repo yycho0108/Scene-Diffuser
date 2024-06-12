@@ -79,7 +79,7 @@ def main(cfg: DictConfig) -> None:
             collate_fn=collate_fn,
             num_workers=cfg.task.test.num_workers,
             pin_memory=True,
-            shuffle=True,
+            shuffle=False,
         )
     }
     

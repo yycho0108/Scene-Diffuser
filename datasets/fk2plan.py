@@ -22,7 +22,7 @@ class FK2Plan(Dataset):
     # _test_split = [f"dthvl15jruz9i2fok6bsy3qamp8c4nex{str(i).zfill(3)}" for i in range(160, 200)]
     # _test_split = [f"dthvl15jruz9i2fok6bsy3qamp8c4nex{str(i).zfill(3)}" for i in range(160, 200)]  ##todo: here to test
     # _test_split = [f"dthvl15jruz9i2fok6bsy3qamp8c4nex{str(i).zfill(3)}" for i in range(199, 200)]  ##todo: here to test
-    _test_split = [f"trigger{str(i).zfill(3)}" for i in range(0,25)]  ##todo: here to test
+    _test_split = [f"trigger{str(i).zfill(3)}" for i in range(0, 250)]  ##todo: here to test
     _all_split = [f"dthvl15jruz9i2fok6bsy3qamp8c4nex{str(i).zfill(3)}" for i in range(200)]
     # _test_split = [f"dthvl15jruz9i2fok6bsy3qamp8c4nex{str(i).zfill(3)}" for i in range(200)]
 
@@ -92,6 +92,7 @@ class FK2Plan(Dataset):
         for mdata in fk2plan_dataset['metadata']:
             mdata_scene_id = mdata[0]
             mdata_start_goal_pose = mdata[1]
+            print(mdata_start_goal_pose)
             mdata_tra_qpos = mdata[2]
             if self.normalize_x:
                 mdata_tra_qpos = self.angle_normalize(mdata_tra_qpos)
@@ -144,6 +145,7 @@ class FK2Plan(Dataset):
         return len(self.indices)
 
     def __getitem__(self, index: Any) -> Tuple:
+        print('index', index)
         traj_idx, start, end = self.indices[index]
         scene_id, start_goal_pose, tra_qpos = self.trajectories[traj_idx]
 

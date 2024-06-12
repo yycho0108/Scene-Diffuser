@@ -1,6 +1,6 @@
 CKPT=$1
 
-python3 plan.py hydra/job_logging=none hydra/hydra_logging=none \
+CUDA_VISIBLE_DEVICES=0 python3 plan_2.py hydra/job_logging=none hydra/hydra_logging=none \
                 exp_dir=${CKPT} \
                 diffuser=ddpm \
                 diffuser.steps=30 \

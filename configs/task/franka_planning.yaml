@@ -12,7 +12,7 @@ train:
 
 test:
   epoch: null
-  batch_size: 16
+  batch_size: 1
   num_workers: 0
 
 has_observation: true # for franka planing, use observation in default
@@ -31,8 +31,8 @@ dataset:
   use_color: false
   use_normal: false
   is_downsample: true
-  data_dir: /input/Scene-Diffuser/grasp_and_armmotion/datasets/FK2PlanDataset2
-  data_dir_slurm: /input/Scene-Diffuser/grasp_and_armmotion/datasets/FK2PlanDataset2
+  data_dir: /input/Scene-Diffuser/grasp_and_armmotion/datasets/FK2PlanDataset4
+  data_dir_slurm: /input/Scene-Diffuser/grasp_and_armmotion/datasets/FK2PlanDataset4
   # data_dir: /input/Scene-Diffuser/grasp_and_armmotion/datasets/FK2PlanDataset
   # data_dir_slurm: /input/Scene-Diffuser/grasp_and_armmotion/datasets/FK2PlanDataset
 

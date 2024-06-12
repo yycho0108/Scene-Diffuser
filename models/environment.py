@@ -405,7 +405,7 @@ class FK2PlanningEnvCore():
         return torch.all(self.end)
 
 @ENV.register()
-@torch.no_grad()
+#@torch.no_grad()
 class FK2PlanningEnvWrapper():
     def __init__(self, cfg: DictConfig) -> None:
         """ FK2Planning environment class for path planning task.
@@ -461,6 +461,8 @@ class FK2PlanningEnvWrapper():
         #     with open(res_saver_path, 'w') as fp:
         #         json.dump(res, fp)
         for i, data in enumerate(dataloader):
+            if i == 0:
+                continue
             for key in data:
                 if torch.is_tensor(data[key]):
                     data[key] = data[key].to(device)
@@ -552,7 +554,7 @@ class FK2PlanningEnvWrapper():
         #     json.dump(res, fp)
 
 @ENV.register()
-@torch.no_grad()
+#@torch.no_grad()
 class PathPlanningEnvWrapper():
     def __init__(self, cfg: DictConfig) -> None:
         """ Path palnning environment class for path planning task.
@@ -686,7 +688,7 @@ class PathPlanningEnvWrapper():
             json.dump(res, fp)
 
 @ENV.register()
-@torch.no_grad()
+# @torch.no_grad()
 class PathPlanningEnvWrapperHF():
     def __init__(self, cfg: DictConfig) -> None:
         """ Path palnning environment class for path planning task.
